@@ -1,31 +1,76 @@
 import java.util.Arrays;
 import java.util.Scanner;
+
 public class pro {
     public static void main(String[] args) {
-//        Flow intro -> lvl 1 -> lvl 2 -> lvl 3
+        //        Flow intro -> lvl 1 -> lvl 2 -> lvl 3
         questions show = new questions();
-        introduction();
-        System.out.print("\nLevel 1" + "\n\t");
-        for(int x = 0; x < show.Quest1.length; x++){
-            System.out.print(show.Quest1[x] + "     ");
+
+        boolean isWon = false;
+        boolean retry = false;
+        int overallScore = 0;
+
+        do {
+            overallScore = 0;
+            introduction();
+
+            System.out.print("\nLevel 1" + "\n\t");
+            for(int x = 0; x < show.Quest1.length; x++){
+                System.out.print(show.Quest1[x] + "     ");
+            }
+
+            level1Score = level();
+            overallScore += level1Score;
+            if (level1Score < 70) {
+                retry = promptRetry();
+                continue;
+            }
+
+            System.out.print("\nLevel 2" + "\n\t");
+            for(int x = 0; x < show.Quest2.length; x++){
+                System.out.print(show.Quest2[x] + "     ");
+            }
+
+            level2Score = level();
+            overallScore += level2Score;
+            if (level2Score < 70) {
+                retry = promptRetry();
+                continue;
+            }
+
+            System.out.print("\nLevel 3" + "\n\t");
+            for(int x = 0; x < show.Quest3.length; x++){
+                System.out.print(show.Quest3[x] + "     ");
+            }
+
+            level3Score = level();
+            overallScore += level3Score;
+            if (level3Score < 70) {
+                retry = promptRetry();
+                continue;
+            }
+
+            retry = false;
+            isWon = true;
+        } while(retry);
+
+        if (isWon) {
+            System.out.println("Overall score: " + overallScore);
+            System.out.println("You Win!!");
+            System.out.println("Press Enter to exit");
+            Scanner sc = new Scanner(System.in);
+            String in = sc.next();
         }
-
-        level1();
-        System.out.print("\nLevel 2" + "\n\t");
-        for(int x = 0; x < show.Quest2.length; x++){
-            System.out.print(show.Quest2[x] + "     ");
-        }
-
-        level2();
-        System.out.print("\nLevel 3" + "\n\t");
-        for(int x = 0; x < show.Quest3.length; x++){
-            System.out.print(show.Quest3[x] + "     ");
-        }
-
-        level3();
-
-
     }
+
+    static boolean promptRetry() {
+        System.out.println("You lose!! Try again...");
+        System.out.println("do you want to retry? [y/n]");
+        Scanner sc = new Scanner(System.in);
+        String in = sc.next();
+        return (in.equals("Y") || in.equals("y"));
+    }
+
     public static class questions{
         //        Questions
         String[] Quest1 = {"d", "e", "t", "l", "i"};
@@ -37,6 +82,7 @@ public class pro {
         String[] Answer2 = {"sec", "can", "cane", "scan", "scene", "sen", "case", "cease"};
         String[] Answer3 = {"honk", "honker", "roe", "ore", "her", "hen", "one"};
     }
+
     public static void introduction(){
 //        Variables String for introduction
         String rules1 = "\n1. Create a word using given characters, min 3 characters & max 6 characters.";
@@ -45,108 +91,66 @@ public class pro {
         System.out.print("Coepoe Word Puzzle" + "\n====================");
         System.out.print("\nRules : ");
         System.out.print(rules1 + rules2 + rules3);
+        System.out.print("\n");
     }
-    public static void level1(){
-//        Variable
-        Scanner sc = new Scanner(System.in);
-        int length = 10;
-        int scoreCount = 0;
 
-        String[] names = new String[length];
+    public static int level1(){
         questions q = new questions();
-//      Logic value
+        return runLevel(q.Quest1, q.Answer1);
+    }
+
+    public static int level2(){
+        questions q = new questions();
+        return runLevel(q.Quest2, q.Answer2);
+    }
+
+    public static int level3(){
+        questions q = new questions();
+        return runLevel(q.Quest3, q.Answer3);
+    }
+
+    static int runLevel(String[] questions, String[] answers) {
+        Scanner sc = new Scanner(System.in);
+        int chances = 10;
+        int rightAnswer = 0;
+
+        String[] names = new String[chances];
+
         String val1  = "Right. ";
         String val2 = "You had already type this word before..";
         String val3 = "";
 
-//      Convert Int to string
+        int i = 0;
+        System.out.print("\n");
+        do {
+            System.out.print("\n" + (i + 1) + "> Your Answer : ");
+            String guess = sc.next();
 
-
-            for (int counter = 0; counter < length; counter++) {
-                System.out.print("\n" + (counter + 1) + "> Your Answer : ");
-                names[counter] = sc.next();
-                if (Arrays.asList(q.Answer1).contains(names[counter])) {
-                    System.out.print("#" + val1 + scoreCount + "0");
-                    scoreCount++;
-                }
-//            else if(Arrays.asList(names[counter]).contains(names[counter])){
-//                System.out.print(val2);
-//            }
-                else {
-                    System.out.print(val3);
-                }
+            if (Arrays.asList(names).contains(guess)) {
+                System.out.println("You already typed this answer before..");
+                continue;
             }
 
-//      Final output
-        System.out.println("\nYou had answered 10 times with " + scoreCount +" right answers..");
-        for (int counter = 0; counter < length; counter++){
-            System.out.print(names[counter] + " ");
-        }
-    }
-
-    public static void level2(){
-        Scanner sc = new Scanner(System.in);
-        int length = 10;
-        int scoreCount = 0;
-        String[] names = new String[length];
-        questions q = new questions();
-//      Logic value
-        String val1  = "Right. ";
-//        String val2 = "You had already type this word before..";
-        String val3 = "";
-
-//      Convert Int to string
-
-
-        for (int counter = 0; counter < length; counter++){
-            System.out.print("\n"+(counter + 1) + "> Your Answer : ");
-            names[counter] = sc.next();
-            if(Arrays.asList(q.Answer2).contains(names[counter])){
-                System.out.print("#" + val1 + scoreCount + "0");
-                scoreCount++;
-            }else{
-                System.out.print(val3);
+            if (Arrays.asList(answers).contains(guess)) {
+                rightAnswer++;
+                System.out.print("#" + val1 + "Score: " + (rightAnswer* 10));
             }
-        }
+
+            names[i] = guess;
+            i++;
+        } while(i < chances);
 
 //      Final output
-        System.out.println("\nYou had answered 10 times with 7 right answers..");
-        for (int counter = 0; counter < length; counter++){
-            System.out.print(names[counter] + " ");
+        System.out.println("\n\nYou had answered 10 times with " + rightAnswer + " right answers..");
+        System.out.println("Right answers:");
+        for (int j = 0; j < answers.length; j++){
+            System.out.print(answers[j] + " ");
+
         }
+        System.out.print("\n\n");
+
+        return rightAnswer * 10;
     }
-    public static void level3(){
-        Scanner sc = new Scanner(System.in);
-        int length = 10;
-        int scoreCount = 0;
-        String[] names = new String[length];
-        questions q = new questions();
-//      Logic value
-        String val1  = "Right. ";
-//        String val2 = "You had already type this word before..";
-        String val3 = "";
-
-//      Convert Int to string
-
-
-        for (int counter = 0; counter < length; counter++){
-            System.out.print("\n"+(counter + 1) + "> Your Answer : ");
-            names[counter] = sc.next();
-            if(Arrays.asList(q.Answer3).contains(names[counter])){
-                System.out.print("#" + val1 + scoreCount + "0");
-                scoreCount++;
-            }else{
-                System.out.print(val3);
-            }
-        }
-
-//      Final output
-        System.out.println("\nYou had answered 10 times with 7 right answers..");
-        for (int counter = 0; counter < length; counter++){
-            System.out.print(names[counter] + " ");
-        }
-    }
-
 
 }
 
