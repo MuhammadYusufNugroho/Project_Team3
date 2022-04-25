@@ -19,7 +19,7 @@ public class pro {
                 System.out.print(show.Quest1[x] + "     ");
             }
 
-            level1Score = level();
+            int level1Score = level1();
             overallScore += level1Score;
             if (level1Score < 70) {
                 retry = promptRetry();
@@ -31,7 +31,7 @@ public class pro {
                 System.out.print(show.Quest2[x] + "     ");
             }
 
-            level2Score = level();
+            int level2Score = level2();
             overallScore += level2Score;
             if (level2Score < 70) {
                 retry = promptRetry();
@@ -43,7 +43,7 @@ public class pro {
                 System.out.print(show.Quest3[x] + "     ");
             }
 
-            level3Score = level();
+            int level3Score = level3();
             overallScore += level3Score;
             if (level3Score < 70) {
                 retry = promptRetry();
@@ -57,15 +57,15 @@ public class pro {
         if (isWon) {
             System.out.println("Overall score: " + overallScore);
             System.out.println("You Win!!");
-            System.out.println("Press Enter to exit");
-            Scanner sc = new Scanner(System.in);
-            String in = sc.next();
+            System.out.println("Press enter to continue");
+            try{System.in.read();}
+            catch(Exception e){}
         }
     }
 
     static boolean promptRetry() {
         System.out.println("You lose!! Try again...");
-        System.out.println("do you want to retry? [y/n]");
+        System.out.println("do you want to retry? [y/t]");
         Scanner sc = new Scanner(System.in);
         String in = sc.next();
         return (in.equals("Y") || in.equals("y"));
@@ -78,9 +78,9 @@ public class pro {
         String[] Quest3 = {"h", "k", "r", "n", "e", "o"};
 
         //        Answer
-        String[] Answer1 = {"tie", "die", "lie", "tied", "lied", "diet", "title"};
+        String[] Answer1 = {"tie", "die", "lie", "tied", "lied", "diet", "title", "tile"};
         String[] Answer2 = {"sec", "can", "cane", "scan", "scene", "sen", "case", "cease"};
-        String[] Answer3 = {"honk", "honker", "roe", "ore", "her", "hen", "one"};
+        String[] Answer3 = {"honk", "honker", "roe", "ore", "her", "hen", "one", "neo", "hero"};
     }
 
     public static void introduction(){
@@ -153,4 +153,3 @@ public class pro {
     }
 
 }
-
